@@ -65,7 +65,7 @@ class Elasticsearch_Integration_Items extends Elasticsearch_Integration_BaseInte
             'public'    => (bool) $item->public,
             'created'   => $this->_getDate($item->added),
             'updated'   => $this->_getDate($item->modified),
-            'title'     => metadata($item, array('Dublin Core', 'Title'))
+            'title'     => 'bob'//metadata('item', array('Dublin Core', 'Title'))
         ]);
 
         // collection:
@@ -113,8 +113,12 @@ class Elasticsearch_Integration_Items extends Elasticsearch_Integration_BaseInte
     public function getItemDocuments() {
         $docs = [];
         $items = $this->_fetchObjects('Item');
-        foreach($items as $item) {
-            $docs[] = $this->getItemDocument($item);
+        try {
+            foreach($items as $item) {
+                $docs[] = $this->getItemDocument($item);
+            }
+        } catch(Exception $e) {
+            _log($e->getMessage(), Zend_Log::INFO);
         }
 
         return $docs;
