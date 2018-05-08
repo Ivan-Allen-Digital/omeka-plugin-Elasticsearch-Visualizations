@@ -57,6 +57,7 @@ class Elasticsearch_Integration_Items extends Elasticsearch_Integration_BaseInte
      */
     public function getItemDocument($item) {
         $doc = new Elasticsearch_Document($this->_docIndex, "item_{$item->id}");
+        $title = (string)$item->getAllElementTexts()[0];
         $doc->setFields([
             'resulttype'=> 'Item',
             'model'     => 'Item',
@@ -65,7 +66,7 @@ class Elasticsearch_Integration_Items extends Elasticsearch_Integration_BaseInte
             'public'    => (bool) $item->public,
             'created'   => $this->_getDate($item->added),
             'updated'   => $this->_getDate($item->modified),
-            'title'     => 'bob'//metadata('item', array('Dublin Core', 'Title'))
+            'title'     => $title//$item->getAllElementTexts()[0]//metadata('item', array('Dublin Core', 'Title'))
         ]);
 
         // collection:
